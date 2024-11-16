@@ -1,4 +1,4 @@
-const { ddownr } = require('../../ddownr'); // Import modul ddownr Anda
+const { ddownr } = require('./ddownr'); // Import modul ddownr Anda
 const cors = require('cors');
 
 // Middleware CORS untuk mendukung request dari domain lain
