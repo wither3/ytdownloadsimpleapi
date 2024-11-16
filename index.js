@@ -1,13 +1,4 @@
-const express = require('express');
 const axios = require('axios');
-const cors = require('cors');
-
-// Inisialisasi Express
-const app = express();
-const port = 3000;
-
-// Middleware CORS
-const corsMiddleware = cors({ origin: '*' });
 
 // Fungsi utama untuk download media
 const ddownr = {
@@ -66,9 +57,16 @@ const ddownr = {
   },
 };
 
-// Endpoint API untuk mengunduh media
-app.get('/api/downloader/ytdownload', corsMiddleware, async (req, res) => {
-  // Mendapatkan parameter query url dan format
+// Fungsi handler API untuk Vercel
+module.exports = async (req, res) => {
+  // Hanya metode GET yang diperbolehkan
+  if (req.method !== 'GET') {
+    return res.status(405).json({
+      success: false,
+      message: 'Hanya metode GET yang didukung.',
+    });
+  }
+
   const { url, format } = req.query;
 
   // Validasi input
@@ -102,9 +100,4 @@ app.get('/api/downloader/ytdownload', corsMiddleware, async (req, res) => {
       error: error.message,
     });
   }
-});
-
-// Menjalankan server
-app.listen(port, () => {
-  console.log(`Server berjalan di http://localhost:${port}`);
-});
+};
