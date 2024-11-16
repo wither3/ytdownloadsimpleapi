@@ -1,5 +1,10 @@
+const express = require('express');
 const axios = require('axios');
 const cors = require('cors');
+
+// Inisialisasi Express
+const app = express();
+const port = 3000;
 
 // Middleware CORS
 const corsMiddleware = cors({ origin: '*' });
@@ -50,7 +55,7 @@ const ddownr = {
       if (data.progress === 1000) {
         return data.download_url;
       } else {
-        console.log('Masih belum selesai wak 😂, sabar gw cek lagi...');
+        console.log('Masih belum selesai, sabar...');
         await new Promise((resolve) => setTimeout(resolve, 1000));
         return ddownr.cekProgress(id);
       }
@@ -61,19 +66,9 @@ const ddownr = {
   },
 };
 
-// Fungsi handler API
-module.exports = async (req, res) => {
-  // Bungkus dengan middleware CORS
-  await new Promise((resolve) => corsMiddleware(req, res, resolve));
-
-  // Hanya izinkan metode GET
-  if (req.method !== 'GET') {
-    return res.status(405).json({
-      success: false,
-      message: 'Hanya metode GET yang didukung.',
-    });
-  }
-
+// Endpoint API untuk mengunduh media
+app.get('/api/downloader/ytdownload', corsMiddleware, async (req, res) => {
+  // Mendapatkan parameter query url dan format
   const { url, format } = req.query;
 
   // Validasi input
@@ -107,4 +102,9 @@ module.exports = async (req, res) => {
       error: error.message,
     });
   }
-};
+});
+
+// Menjalankan server
+app.listen(port, () => {
+  console.log(`Server berjalan di http://localhost:${port}`);
+});
