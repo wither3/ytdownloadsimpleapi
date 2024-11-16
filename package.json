@@ -1,14 +1,10 @@
 {
-  "name": "yt-download-api",
+  "name": "ytdownload-api",
   "version": "1.0.0",
-  "description": "A YouTube video download API",
-  "main": "index.js",
-  "scripts": {
-    "start": "vercel dev"
-  },
+  "main": "api/ytdownload.js",
   "dependencies": {
-    "axios": "^1.3.4",
-    "cors": "^2.8.5",
-    "express": "^4.18.2"
+    "axios": "^0.27.2",
+    "cheerio": "^1.0.0-rc.10",
+    "qs": "^6.10.1"
   }
 }
